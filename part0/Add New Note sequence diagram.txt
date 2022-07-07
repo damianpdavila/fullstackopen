@@ -1,0 +1,33 @@
+title Add New Note
+
+note over browser:
+The user types new note, and clicks "save" button.
+The browser posts data to server as name/value pair:
+note=thursty
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note over server:
+The server saves new note
+end note
+server-->browser: HTTP 302 redirect to /notes
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+
+note over browser:
+Browser starts executing JS code
+that requests JSON data from server 
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [...{content: "thursty", date: "2022-07-07T04:49:07.5162" }]
+
+note over browser:
+browser executes the event handler
+that renders notes to display
+end note

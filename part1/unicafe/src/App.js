@@ -8,7 +8,7 @@ const Button = (props) => {
   )
 }
 
-const Display = (props) => {
+const Statistics = (props) => {
   const {good, neutral, bad} = props;
   const total = good + neutral + bad;
   let average = 0;
@@ -49,7 +49,7 @@ const App = () => {
       <Button handleClick={handleClickNeutral} text='neutral' />
       <Button handleClick={handleClickBad} text='bad' />
       <h1>Statistics</h1>
-      <Display good={good} neutral={neutral} bad={bad}/>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
     </>
   );
 }

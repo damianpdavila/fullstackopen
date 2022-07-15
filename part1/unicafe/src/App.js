@@ -11,7 +11,7 @@ const Button = (props) => {
 const StatisticLine = (props) => {
   return (
     <>
-      <br /><span>{props.text} {props.value}</span>
+      <tr><td>{props.text}</td><td>{props.value}</td></tr>
     </>
   )
 }
@@ -24,7 +24,7 @@ const Statistics = (props) => {
 
   if (total > 0) {
     average = (good*1 + neutral*0 + bad*-1)/total;
-    positive = good/total*100;
+    positive = (good/total*100).toString().concat(' %');
   } else {
     return (
       <>
@@ -35,12 +35,16 @@ const Statistics = (props) => {
   
   return (
     <>
-      <StatisticLine text="Good" value={good} />
-      <StatisticLine text="Neutral" value={neutral} />
-      <StatisticLine text="Bad" value={bad} />
-      <StatisticLine text="All" value={total} />
-      <StatisticLine text="Average" value={average} />
-      <StatisticLine text="Positive" value={positive} /> %
+      <table>
+        <tbody>
+          <StatisticLine text="Good" value={good} />
+          <StatisticLine text="Neutral" value={neutral} />
+          <StatisticLine text="Bad" value={bad} />
+          <StatisticLine text="All" value={total} />
+          <StatisticLine text="Average" value={average} />
+          <StatisticLine text="Positive" value={positive} />
+        </tbody>
+      </table>
     </>
   )
 }

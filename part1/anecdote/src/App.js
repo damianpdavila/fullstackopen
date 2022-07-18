@@ -10,6 +10,7 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
+  console.log(anecdotes);
 
   function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -18,6 +19,7 @@ const App = () => {
   }
 
   const [selected, setSelected] = useState(0);
+  const [mostVotes, setMostVotes] = useState(0);
 
   const [votes, setVotes] = useState(Array(anecdotes.length).fill(0));
 
@@ -29,16 +31,25 @@ const App = () => {
   const vote = () => {
     const new_votes = [...votes];
     new_votes[selected] = votes[selected] + 1;
+
+    if (new_votes[selected] > new_votes[mostVotes]) {
+      setMostVotes(selected);
+    }
     console.log(new_votes);
     return setVotes(new_votes);
   }
 
   return (
     <>
+      <h1>Anecdote of the Day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {votes[selected]} votes</p>
       <button onClick={vote}>Vote</button>
       <button onClick={nextAnecdote}>Next Anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[mostVotes]}</p>
+      <p>has {votes[mostVotes]} votes</p>
+
     </>
   );
 }

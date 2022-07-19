@@ -11,10 +11,19 @@ const App = () => {
     console.log('new name', event.target.value);
   }
 
+  const nameExists = (name) => {
+    const idx = persons.findIndex((existing) => existing.name.toLowerCase() === name.toLowerCase());
+    return (idx > -1);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('button clicked', event.target);
-    setPersons(persons.concat({name: newName}));
+    if (nameExists(newName.trim())) {
+      alert(`${newName} is already added to the phonebook`);
+      return;
+    }
+    setPersons(persons.concat({name: newName.trim()}));
     setNewName('');
   }
 

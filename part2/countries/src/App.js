@@ -10,6 +10,33 @@ const Filter = (props) => {
   );
 };
 
+const Country = (props) => {
+  console.log(props.filteredCountries[0]);
+  let idx = 0;
+  if (props.selectedCountry === "") {
+    idx = 0;
+  } else {
+    // find the selected country's index
+    idx = props.filteredCountries.findIndex( (element) => element.name.common == props.selectedCountry )
+  }
+  return (
+    <div>
+      <h3>{props.filteredCountries[idx].name.common}</h3>
+      <p>Capital: {props.filteredCountries[idx].capital[idx]}</p>
+      <p>Area: {props.filteredCountries[idx].area}</p>
+      <h4>Languages:</h4>
+      <ul>
+        {Object.values(props.filteredCountries[idx].languages).map((language) => (
+          <li key={language}>
+            {language}
+          </li>
+        ))}
+      </ul>
+      <img src={props.filteredCountries[idx].flags.png}></img>
+    </div>
+  );
+
+};
 const Countries = (props) => {
   if (props.filteredCountries.length > 10) {
     return (
@@ -17,33 +44,22 @@ const Countries = (props) => {
         <p>Too many matches, specify another filter</p>
       </div>
     );
-  } else if (props.filteredCountries.length == 1 ) {
-    console.log(props.filteredCountries[0].languages);
+  } else if (props.filteredCountries.length == 1 || props.selectedCountry !== "") {
     return (
-      <div>
-        <h3>{props.filteredCountries[0].name.common}</h3>
-        <p>Capital: {props.filteredCountries[0].capital[0]}</p>
-        <p>Area: {props.filteredCountries[0].area}</p>
-        <h4>Languages:</h4>
-        <ul>
-          {Object.values(props.filteredCountries[0].languages).map((language) => (
-            <li key={language}>
-              {language}
-            </li>
-          ))}
-        </ul>
-        <img src={props.filteredCountries[0].flags.png}></img>
-      </div>
-    );
+      <Country selectedCountry={props.selectedCountry} filteredCountries={props.filteredCountries} />
+    )
   } else {
     return (
-      <div>
+      <ul>
         {props.filteredCountries.map((country) => (
-          <p key={country.name.common}>
-            {country.name.common}
-          </p>
+          <div key={country.name.common}>
+            <li key={country.name.common}>
+              {country.name.common}
+              <button onClick={props.handler} country={country.name.common}>Show</button>
+            </li>
+          </div>
         ))}
-      </div>
+      </ul>
     );
   }
 };
@@ -51,6 +67,7 @@ const Countries = (props) => {
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [newFilter, setNewFilter] = useState("");
+  const [selState, setSelState] = useState("");
 
   useEffect(() => {
     console.log("effect");
@@ -67,14 +84,20 @@ const App = () => {
 
   const handleChangeFilter = (event) => {
     setNewFilter(event.target.value);
+    setSelState('');
     console.log("new filter", event.target.value);
   };
+
+  const buttonClick =  (event) => {
+    console.log("button: ", event.target.getAttribute('country'));
+    setSelState(event.target.getAttribute('country'));
+  }
 
   return (
     <div>
       <h2>Countries</h2>
       <Filter filter={newFilter} handler={handleChangeFilter} />
-      <Countries filteredCountries={filteredCountries} />
+      <Countries filteredCountries={filteredCountries} selectedCountry={selState} handler={buttonClick} />
     </div>
   );
 };

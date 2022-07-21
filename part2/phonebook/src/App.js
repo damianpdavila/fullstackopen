@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 
 const Filter = (props) => {
   return (
     <div>
-      Filter list by name: <input value={props.filter} onChange={props.handler} />
+      Filter list by name:{" "}
+      <input value={props.filter} onChange={props.handler} />
     </div>
   );
-}
+};
 
 const ContactForm = (props) => {
   return (
@@ -15,7 +17,8 @@ const ContactForm = (props) => {
         name: <input value={props.newName} onChange={props.handleChangeName} />
       </div>
       <div>
-        phone: <input value={props.newPhone} onChange={props.handleChangePhone} />
+        phone:{" "}
+        <input value={props.newPhone} onChange={props.handleChangePhone} />
       </div>
       <div>
         <button type="submit" onClick={props.handleSubmit}>
@@ -24,7 +27,7 @@ const ContactForm = (props) => {
       </div>
     </form>
   );
-}
+};
 
 const Contacts = (props) => {
   return (
@@ -35,20 +38,23 @@ const Contacts = (props) => {
         </p>
       ))}
     </div>
-  )
-}
+  );
+};
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456", id: 1 },
-    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
-    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
-    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
-  ]);
-
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [newFilter, setNewFilter] = useState("");
+
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+    });
+  }, []);
+  console.log("render", persons.length, "persons");
 
   const handleChangeName = (event) => {
     setNewName(event.target.value);
@@ -95,10 +101,15 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter filter={newFilter} handler={handleChangeFilter} />
       <h3>Add a New Contact</h3>
-      <ContactForm newName={newName} newPhone={newPhone} handleChangeName={handleChangeName} handleChangePhone={handleChangePhone} handleSubmit={handleSubmit} />
+      <ContactForm
+        newName={newName}
+        newPhone={newPhone}
+        handleChangeName={handleChangeName}
+        handleChangePhone={handleChangePhone}
+        handleSubmit={handleSubmit}
+      />
       <h3>Contacts</h3>
       <Contacts filteredContacts={filteredContacts} />
-
     </div>
   );
 };

@@ -80,7 +80,12 @@ const App = () => {
   };
   
   const handleDelete = (id) => {
-    console.log("delete button clicked", id);  
+    console.log("delete button clicked", id); 
+    
+    const target = persons.find(person => person.id === id);
+    if (! window.confirm(`Delete ${target.name}?`)) {
+      return;
+    }
     personService.deletePerson(id)
       .then((deleted) => {
         const newList = persons.filter(contact => contact.id !== id);

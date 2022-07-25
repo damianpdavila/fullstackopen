@@ -2,28 +2,38 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "040-123456",
+      "phone": "040-123456",
       "id": 1
     },
     {
       "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "phone": "39-44-5323523",
       "id": 2
     },
     {
       "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "phone": "12-43-234345",
       "id": 3
     },
     {
+      "name": "Mary Poppendieck",
+      "phone": "39-23-6423122",
+      "id": 4
+    },
+    {
       "name": "Monty Python",
-      "number": "01-99-123456",
+      "phone": "01-99-123456",
       "id": 5
     },
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
+      "name": "Joseph",
+      "phone": "Blowseph",
+      "id": 6
+    },
+    {
+      "name": "Fabiana",
+      "phone": "Bella",
+      "id": 7
     }
   ]
 }

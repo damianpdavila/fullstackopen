@@ -33,11 +33,16 @@ const ContactForm = (props) => {
 const Contacts = (props) => {
   return (
     <div>
-      {props.filteredContacts.map((person) => (
-        <p key={person.name}>
-          {person.name} {person.phone}
-        </p>
-      ))}
+      {props.filteredContacts.map((person) => {
+        return (
+            <p key={person.name}>
+              {person.name} {person.phone} &nbsp;
+              <button key={person.name} onClick={() => props.handleDelete(person.id)}>
+                delete
+              </button>
+            </p>
+        )
+      })}
     </div>
   );
 };
@@ -72,6 +77,15 @@ const App = () => {
   const handleChangeFilter = (event) => {
     setNewFilter(event.target.value);
     console.log("new filter", event.target.value);
+  };
+  
+  const handleDelete = (id) => {
+    console.log("delete button clicked", id);  
+    personService.deletePerson(id)
+      .then((deleted) => {
+        const newList = persons.filter(contact => contact.id !== id);
+        setPersons(newList);
+      })
   };
 
   const nameExists = (name) => {
@@ -114,7 +128,7 @@ const App = () => {
         handleSubmit={handleSubmit}
       />
       <h3>Contacts</h3>
-      <Contacts filteredContacts={filteredContacts} />
+      <Contacts filteredContacts={filteredContacts} handleDelete={handleDelete} />
     </div>
   );
 };

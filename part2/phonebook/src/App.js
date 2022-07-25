@@ -100,13 +100,7 @@ const App = () => {
     return idx > -1;
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("button clicked", event.target);
-    if (nameExists(newName.trim())) {
-      alert(`${newName} is already added to the phonebook`);
-      return;
-    }
+  const addPerson = () => {
     const newPerson = {
       name: newName.trim(),
       phone: newPhone.trim()
@@ -114,10 +108,42 @@ const App = () => {
     personService.create(newPerson)
       .then((added) => {
         setPersons(persons.concat(added));
+      })
+  };
+
+  const updatePhone = (name) => {
+    // find record
+    const updateId = persons.find(person => person.name.toLowerCase() === name.toLowerCase()).id;
+    // update it
+    personService.updatePhone(updateId, newPhone)
+      .then((response) => {
+        const updatedList = persons.map((person) => {
+          if (person.id === updateId) {
+            person.phone = newPhone;
+          }
+          return person;
+        })
+        setPersons(updatedList);
+      })
+
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("button clicked", event.target);
+
+    if (nameExists(newName.trim())) {
+      if ( window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
+        updatePhone(newName.trim());
         setNewName("");
         setNewPhone("");
-    
-      })
+      }
+    } else {
+      addPerson();
+      setNewName("");
+      setNewPhone("");
+
+    }
   };
 
   return (

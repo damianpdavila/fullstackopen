@@ -11,6 +11,17 @@ const Filter = (props) => {
   );
 };
 
+const Notification = ({message}) => {
+  if (message === '' || message.length == 0) {
+    return null
+  }
+  return (
+    <div className='success'>
+      {message}
+    </div>
+  )
+}
+
 const ContactForm = (props) => {
   return (
     <form>
@@ -52,6 +63,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [newFilter, setNewFilter] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   useEffect(() => {
     console.log("effect");
@@ -59,6 +71,13 @@ const App = () => {
       .then(allPersons => setPersons(allPersons));
   }, []);
   console.log("render", persons.length, "persons");
+
+  const notifySuccess = (message) => {
+    setNotificationMessage(message);
+    setTimeout( () => {
+      setNotificationMessage('');
+    }, 5000);
+  }
 
   const handleChangeName = (event) => {
     setNewName(event.target.value);
@@ -135,11 +154,13 @@ const App = () => {
     if (nameExists(newName.trim())) {
       if ( window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
         updatePhone(newName.trim());
+        notifySuccess(`Updated phone for ${newName}`);
         setNewName("");
         setNewPhone("");
       }
     } else {
       addPerson();
+      notifySuccess(`Added ${newName}`);
       setNewName("");
       setNewPhone("");
 
@@ -149,6 +170,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <Filter filter={newFilter} handler={handleChangeFilter} />
       <h3>Add a New Contact</h3>
       <ContactForm

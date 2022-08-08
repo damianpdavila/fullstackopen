@@ -12,7 +12,7 @@ const Filter = (props) => {
 };
 
 const Notification = ({message, type}) => {
-  if (message === '' || message.length == 0) {
+  if (message === '' || message.length === 0) {
     return null
   }
   return (

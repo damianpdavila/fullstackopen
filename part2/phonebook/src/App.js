@@ -123,7 +123,7 @@ const App = () => {
         notifySuccess(`Deleted ${target.name}`);
       })
       .catch((error) => {
-        notifyError(`Error occurred. ${target.name} could not be deleted.`)
+        notifyError(`Error occurred. ${error.response.data.error}`)
       })
 
   };
@@ -146,8 +146,11 @@ const App = () => {
         notifySuccess(`Added ${newName}`);
         setNewName("");
         setNewPhone("");
+        })
+        .catch((error) => {
+          notifyError(`Error occurred. ${error.response.data.error}`)
+        })
   
-      })
   };
 
   const updatePhone = (name) => {
@@ -171,7 +174,7 @@ const App = () => {
 
       })
       .catch((error) => {
-        notifyError(`Information for ${name} has already been removed from server.`)
+        notifyError(`Error occurred. ${error.response.data.error}`)
       })
 
   };

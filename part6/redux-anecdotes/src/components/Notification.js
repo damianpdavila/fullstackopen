@@ -14,7 +14,7 @@ const Notification = () => {
       </div>
     )
   }
-  return ("")
+  return (null)
 }
 
 export default Notification

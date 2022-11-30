@@ -14,10 +14,7 @@ const AnecdoteForm = (props) => {
         evt.target.content.value = '';
         console.log('new', content);
         dispatch(createAnecdote(content));
-        dispatch(setNotification('New anecdote added'));
-        setTimeout(() => {
-            dispatch(resetNotification());
-        }, 5000);
+        dispatch(setNotification('New anecdote added', 5000));
     };
 
     return (

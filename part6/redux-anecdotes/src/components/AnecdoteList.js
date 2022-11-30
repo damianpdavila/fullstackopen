@@ -13,11 +13,7 @@ const AnecdoteList = (props) => {
 
     const handleVote = (anecdote) => {
         dispatch(voteForAnecdote(anecdote));
-        dispatch(setNotification('You voted "' + anecdote.content + '"'));
-        setTimeout(() => {
-            dispatch(resetNotification());
-        }, 5000);
-
+        dispatch(setNotification('You voted "' + anecdote.content + '"', 5000));
     }
 
     return anecdotes.map((anecdote) => (

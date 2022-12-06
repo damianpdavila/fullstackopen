@@ -19,10 +19,16 @@ const notificationSlice = createSlice({
 
 export const {displayNotification, resetNotification} = notificationSlice.actions;
 
+var handleTimeout = null;
+
 export const setNotification = (text, duration) => {  
     return async dispatch => {
+        if (handleTimeout !== null) {
+            clearTimeout(handleTimeout);
+            handleTimeout = null;
+        }
         dispatch(displayNotification(text));
-        setTimeout(() => {
+        handleTimeout = setTimeout(() => {
             dispatch(resetNotification());
         }, duration);
     }}
